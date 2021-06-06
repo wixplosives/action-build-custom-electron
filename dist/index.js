@@ -8,50 +8,9 @@ require('./sourcemap-register.js');module.exports =
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.concatIterables = exports.flattenTree = exports.mapRecord = exports.isPlainObject = exports.isString = exports.noop = void 0;
-const noop = () => undefined;
-exports.noop = noop;
+exports.isString = void 0;
 const isString = (value) => typeof value === 'string';
 exports.isString = isString;
-const isPlainObject = (value) => typeof value === 'object' && value !== null && !Array.isArray(value);
-exports.isPlainObject = isPlainObject;
-function mapRecord(obj, replaceFn, targetObj = {}, onReplace = exports.noop) {
-    for (const [key, value] of Object.entries(obj)) {
-        const newValue = replaceFn(key, value);
-        if (newValue !== value) {
-            onReplace(key, value, newValue);
-        }
-        targetObj[key] = newValue;
-    }
-    return targetObj;
-}
-exports.mapRecord = mapRecord;
-function flattenTree(root, children, predicate = () => true) {
-    const results = new Set();
-    const visited = new Set();
-    const toProcess = [root];
-    while (toProcess.length) {
-        const node = toProcess.shift();
-        if (visited.has(node)) {
-            continue;
-        }
-        visited.add(node);
-        if (predicate(node)) {
-            results.add(node);
-        }
-        toProcess.push(...children(node));
-    }
-    return results;
-}
-exports.flattenTree = flattenTree;
-function* concatIterables(...iterables) {
-    for (const iterable of iterables) {
-        for (const item of iterable) {
-            yield item;
-        }
-    }
-}
-exports.concatIterables = concatIterables;
 
 
 /***/ }),

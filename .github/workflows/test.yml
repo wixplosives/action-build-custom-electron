@@ -26,7 +26,7 @@ jobs:
           feature: feature
           featureConfig: feature-config
           buildCmd: npm run build:wcs
-          buildFolder: ./__tests__/fixtures/package1/build
+          buildFolder: build
       - name: Compare output and fail if not correct
         if: ${{ steps.run-command.outputs.packageFile != 'WcsElectron-some.deb' }}
         run: exit 1

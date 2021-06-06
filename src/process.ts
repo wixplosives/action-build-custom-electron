@@ -9,7 +9,7 @@ export const spawnSyncSafe = ((...args: Parameters<typeof spawnSync>) => {
       `Command "${args
         .filter(isString)
         .join(' ')}" failed with exit code ${String(spawnResult.status)}.`
-    );
+    )
   }
   return spawnResult
 }) as typeof spawnSync
