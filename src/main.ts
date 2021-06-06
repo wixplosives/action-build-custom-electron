@@ -37,7 +37,7 @@ async function run(): Promise<void> {
     core.debug(`Building ${feature} ${featureConfig} ...`) // debug is only output if you set the secret `ACTIONS_RUNNER_DEBUG` to true
     // yarn
     const fullPathToPackage = path.resolve(packageFolder)
-    core.info(`Package folder is ${fullPathToPackage}`)
+    core.info(`Running in ${fullPathToPackage}`)
     const spawnOptions: childProcess.SpawnSyncOptions = {
       cwd: fullPathToPackage,
       stdio: 'inherit',
@@ -51,12 +51,14 @@ async function run(): Promise<void> {
     )
     const extension = getResultExtension(platform)
     const fullPathToBuildFolder = path.join(fullPathToPackage, buildFolder)
-    core.info(`Build folder is ${fullPathToBuildFolder}`)
+    core.info(
+      `Build folder - ${fullPathToBuildFolder}. Extension - ${extension}`
+    )
     const resultFileName = findFirstFileByExtension(
       fullPathToBuildFolder,
       extension
     )
-
+    core.info(`Result file - ${resultFileName}`)
     core.setOutput('packageFile', resultFileName)
   } catch (error) {
     core.setFailed(error.message)
