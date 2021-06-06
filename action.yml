@@ -1,4 +1,4 @@
-name: 'Build wcs-electron package'
+name: 'Build customwcs-electron'
 description: 'Runs predefined command that compiles wcs-electron package for os and provides output with result file name'
 author: 'Core3'
 inputs:
