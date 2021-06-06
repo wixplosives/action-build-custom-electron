@@ -154,7 +154,8 @@ function run() {
             };
             process_1.spawnSyncLogged(buildCmd, ['-f', feature, '-c', featureConfig], spawnOptions);
             const extension = getResultExtension(platform);
-            const resultFileName = utils_1.findFirstFileByExtension(buildFolder, extension);
+            const fullPathToBuildFolder = path.join(fullPathToPackage, buildFolder);
+            const resultFileName = utils_1.findFirstFileByExtension(fullPathToBuildFolder, extension);
             core.setOutput('packageFile', resultFileName);
         }
         catch (error) {

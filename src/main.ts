@@ -49,7 +49,11 @@ async function run(): Promise<void> {
       spawnOptions
     )
     const extension = getResultExtension(platform)
-    const resultFileName = findFirstFileByExtension(buildFolder, extension)
+    const fullPathToBuildFolder = path.join(fullPathToPackage, buildFolder)
+    const resultFileName = findFirstFileByExtension(
+      fullPathToBuildFolder,
+      extension
+    )
 
     core.setOutput('packageFile', resultFileName)
   } catch (error) {

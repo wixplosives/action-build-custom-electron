@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build:wcs": "echo build called"
+    "build:wcs": "build called"
   },
   "author": "alexshe",
   "license": "ISC"

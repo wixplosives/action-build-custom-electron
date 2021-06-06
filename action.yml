@@ -20,7 +20,7 @@ inputs:
     default: 'yarn build:wcs'
   buildFolder: 
     required: false
-    description: 'folder name where installation package executable can be'
+    description: 'path relative to packageFolder where result files will be'
     default: 'build'
 outputs:
   packageFile: # id of the output
