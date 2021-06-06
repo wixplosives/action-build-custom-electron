@@ -43,7 +43,7 @@ async function run(): Promise<void> {
       cwd: fullPathToPackage,
       stdio: 'inherit',
       shell: true,
-      env: {...process.env, WCS_FEATURE_NAME: featureSuffix}
+      env: {...process.env, WCS_FEATURE_NAME: `-${featureSuffix}`}
     }
     spawnSyncLogged(
       buildCmd,
