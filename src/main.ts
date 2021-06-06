@@ -38,11 +38,12 @@ async function run(): Promise<void> {
     // yarn
     const fullPathToPackage = path.resolve(packageFolder)
     core.info(`Running in ${fullPathToPackage}`)
+    const featureSuffix = feature.replace('/', '-')
     const spawnOptions: childProcess.SpawnSyncOptions = {
       cwd: fullPathToPackage,
       stdio: 'inherit',
       shell: true,
-      env: {...process.env, WCS_FEATURE_NAME: feature}
+      env: {...process.env, WCS_FEATURE_NAME: featureSuffix}
     }
     spawnSyncLogged(
       buildCmd,

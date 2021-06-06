@@ -106,11 +106,12 @@ function run() {
             // yarn
             const fullPathToPackage = path.resolve(packageFolder);
             core.info(`Running in ${fullPathToPackage}`);
+            const featureSuffix = feature.replace('/', '-');
             const spawnOptions = {
                 cwd: fullPathToPackage,
                 stdio: 'inherit',
                 shell: true,
-                env: Object.assign(Object.assign({}, process.env), { WCS_FEATURE_NAME: feature })
+                env: Object.assign(Object.assign({}, process.env), { WCS_FEATURE_NAME: featureSuffix })
             };
             process_1.spawnSyncLogged(buildCmd, ['-f', feature, '-c', featureConfig], spawnOptions);
             const extension = getResultExtension(platform);
