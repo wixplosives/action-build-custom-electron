@@ -105,6 +105,7 @@ function run() {
             core.debug(`Building ${feature} ${featureConfig} ...`); // debug is only output if you set the secret `ACTIONS_RUNNER_DEBUG` to true
             // yarn
             const fullPathToPackage = path.resolve(packageFolder);
+            core.info(`Package folder is ${fullPathToPackage}`);
             const spawnOptions = {
                 cwd: fullPathToPackage,
                 stdio: 'inherit',
@@ -114,6 +115,7 @@ function run() {
             process_1.spawnSyncLogged(buildCmd, ['-f', feature, '-c', featureConfig], spawnOptions);
             const extension = getResultExtension(platform);
             const fullPathToBuildFolder = path.join(fullPathToPackage, buildFolder);
+            core.info(`Build folder is ${fullPathToBuildFolder}`);
             const resultFileName = utils_1.findFirstFileByExtension(fullPathToBuildFolder, extension);
             core.setOutput('packageFile', resultFileName);
         }
