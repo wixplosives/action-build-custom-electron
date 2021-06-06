@@ -26,7 +26,7 @@ outputs:
   packageFile: # id of the output
     description: 'Name of the compiled installation package'
 runs:
-  using: 'node14'
+  using: 'node12'
   main: 'dist/index.js'
 
  
