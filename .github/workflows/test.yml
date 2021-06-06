@@ -20,5 +20,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: ./
+        id: run-command
         with:
-          milliseconds: 1000
+          packageFolder: ./__tests__/fixtures/package1
+          feature: feature
+          featureConfig: feature-config
+          buildCmd: npm run build:wcs
+          buildFolder: ./__tests__/fixtures/package1/build
+      - name: Compare output and fail if not correct
+        if: ${{ steps.run-command.outputs.packageFile != 'WcsElectron-some.deb' }}
+        run: exit 1
+

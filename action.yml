@@ -1,11 +1,33 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'Build wcs-electron package'
+description: 'Runs predefined command that compiles wcs-electron package for os and provides output with result file name'
+author: 'Core3'
 inputs:
-  milliseconds: # change this
+  packageFolder: 
     required: true
-    description: 'input description here'
-    default: 'default value if applicable'
+    description: 'Path to folder with package to build'
+    default: './'
+  feature: 
+    required: true
+    description: 'name of the feature'
+    default: 'no default'
+  featureConfig: 
+    required: true
+    description: 'config file for feature'
+    default: 'no default'
+  buildCmd: 
+    required: true
+    description: 'build command to execute to compile install package'
+    default: 'yarn build:wcs'
+  buildFolder: 
+    required: false
+    description: 'folder name where installation package executable can be'
+    default: 'build'
+  buildFolder: false
+outputs:
+  packageFile: # id of the output
+    description: 'Name of the compiled installation package'
 runs:
-  using: 'node12'
+  using: 'node14'
   main: 'dist/index.js'
+
+ 
