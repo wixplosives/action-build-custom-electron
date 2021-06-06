@@ -54,7 +54,7 @@ async function run(): Promise<void> {
     core.info(
       `Build folder - ${fullPathToBuildFolder}. Extension - ${extension}`
     )
-    const resultFileName = findFirstFileByExtension(
+    const resultFileName = await findFirstFileByExtension(
       fullPathToBuildFolder,
       extension
     )

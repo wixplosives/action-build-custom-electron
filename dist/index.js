@@ -116,7 +116,7 @@ function run() {
             const extension = getResultExtension(platform);
             const fullPathToBuildFolder = path.join(fullPathToPackage, buildFolder);
             core.info(`Build folder - ${fullPathToBuildFolder}. Extension - ${extension}`);
-            const resultFileName = utils_1.findFirstFileByExtension(fullPathToBuildFolder, extension);
+            const resultFileName = yield utils_1.findFirstFileByExtension(fullPathToBuildFolder, extension);
             core.info(`Result file - ${resultFileName}`);
             core.setOutput('packageFile', resultFileName);
         }
