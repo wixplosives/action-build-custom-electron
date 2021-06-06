@@ -22,7 +22,6 @@ inputs:
     required: false
     description: 'folder name where installation package executable can be'
     default: 'build'
-  buildFolder: false
 outputs:
   packageFile: # id of the output
     description: 'Name of the compiled installation package'
