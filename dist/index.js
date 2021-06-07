@@ -73,19 +73,9 @@ const core = __importStar(__webpack_require__(186));
 const utils_1 = __webpack_require__(918);
 const process_1 = __webpack_require__(647);
 const path = __importStar(__webpack_require__(622));
-function getPlatform() {
+function getResultExtension() {
     switch (process.platform) {
         case 'darwin':
-            return 'mac';
-        case 'win32':
-            return 'windows';
-        default:
-            return 'linux';
-    }
-}
-function getResultExtension(platform) {
-    switch (platform) {
-        case 'mac':
             return '.dmg';
         case 'win32':
             return '.exe';
@@ -101,7 +91,6 @@ function run() {
             const featureConfig = core.getInput('featureConfig');
             const buildCmd = core.getInput('buildCmd');
             const buildFolder = core.getInput('buildFolder');
-            const platform = getPlatform();
             core.debug(`Building ${feature} ${featureConfig} ...`); // debug is only output if you set the secret `ACTIONS_RUNNER_DEBUG` to true
             // yarn
             const fullPathToPackage = path.resolve(packageFolder);
@@ -113,8 +102,8 @@ function run() {
                 shell: true,
                 env: Object.assign(Object.assign({}, process.env), { WCS_FEATURE_NAME: `-${featureSuffix}` })
             };
-            process_1.spawnSyncLogged(buildCmd, ['-f', feature, '-c', featureConfig], spawnOptions);
-            const extension = getResultExtension(platform);
+            process_1.spawnSyncLogged(buildCmd, ['-f', feature, '-c', featureConfig, '--publish', 'never'], spawnOptions);
+            const extension = getResultExtension();
             const fullPathToBuildFolder = path.join(fullPathToPackage, buildFolder);
             core.info(`Build folder - ${fullPathToBuildFolder}. Extension - ${extension}`);
             const resultFileName = yield utils_1.findFirstFileByExtension(fullPathToBuildFolder, extension);

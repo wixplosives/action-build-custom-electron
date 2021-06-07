@@ -4,20 +4,10 @@ import {spawnSyncLogged} from './process'
 import type childProcess from 'child_process'
 import * as path from 'path'
 
-function getPlatform(): string {
+
+function getResultExtension(): string {
   switch (process.platform) {
     case 'darwin':
-      return 'mac'
-    case 'win32':
-      return 'windows'
-    default:
-      return 'linux'
-  }
-}
-
-function getResultExtension(platform: string): string {
-  switch (platform) {
-    case 'mac':
       return '.dmg'
     case 'win32':
       return '.exe'
@@ -33,7 +23,6 @@ async function run(): Promise<void> {
     const featureConfig: string = core.getInput('featureConfig')
     const buildCmd: string = core.getInput('buildCmd')
     const buildFolder: string = core.getInput('buildFolder')
-    const platform = getPlatform()
     core.debug(`Building ${feature} ${featureConfig} ...`) // debug is only output if you set the secret `ACTIONS_RUNNER_DEBUG` to true
     // yarn
     const fullPathToPackage = path.resolve(packageFolder)
@@ -47,10 +36,10 @@ async function run(): Promise<void> {
     }
     spawnSyncLogged(
       buildCmd,
-      ['-f', feature, '-c', featureConfig],
+      ['-f', feature, '-c', featureConfig, '--publish', 'never'],
       spawnOptions
     )
-    const extension = getResultExtension(platform)
+    const extension = getResultExtension()
     const fullPathToBuildFolder = path.join(fullPathToPackage, buildFolder)
     core.info(
       `Build folder - ${fullPathToBuildFolder}. Extension - ${extension}`
