@@ -111,7 +111,7 @@ function run() {
                 cwd: fullPathToPackage,
                 stdio: 'inherit',
                 shell: true,
-                env: Object.assign(Object.assign({}, process.env), { WCS_FEATURE_NAME: featureSuffix })
+                env: Object.assign(Object.assign({}, process.env), { WCS_FEATURE_NAME: `-${featureSuffix}` })
             };
             process_1.spawnSyncLogged(buildCmd, ['-f', feature, '-c', featureConfig], spawnOptions);
             const extension = getResultExtension(platform);
