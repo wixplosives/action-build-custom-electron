@@ -31,7 +31,7 @@ jobs:
         if: ${{ steps.run-command.outputs.packageFile != 'WcsElectron-some.deb' }}
         run: exit 1
       - name: Compare output and fail if not correct
-        if: ${{ steps.run-command.outputs.packageFile2 != 'WcsElectron-some.pac' }}
+        if: ${{ steps.run-command.outputs.packageFile2 != 'WcsElectron-some.pacman' }}
         run: exit 1
   test-windows: # make sure the action works on a clean machine without building
     runs-on: windows-latest
