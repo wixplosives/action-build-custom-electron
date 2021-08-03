@@ -15,7 +15,7 @@ jobs:
           npm install
       - run: |
           npm run all
-  test: # make sure the action works on a clean machine without building
+  test-linux: # make sure the action works on a clean machine without building
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -27,7 +27,30 @@ jobs:
           featureConfig: feature-config
           buildCmd: npm run build:wcs
           buildFolder: build
+      - name: Fail if first output is not defined    
+        if: ${{ !steps.run-command.outputs.packageFile }}
+        run: exit 1
       - name: Compare output and fail if not correct
         if: ${{ steps.run-command.outputs.packageFile != 'WcsElectron-some.deb' }}
         run: exit 1
-
+      - name: Compare output and fail if not correct
+        if: ${{ steps.run-command.outputs.packageFile2 != 'WcsElectron-some.pacman' }}
+        run: exit 1
+  test-windows: # make sure the action works on a clean machine without building
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./
+        id: run-command
+        with:
+          packageFolder: ./__tests__/fixtures/package1
+          feature: feature
+          featureConfig: feature-config
+          buildCmd: npm run build:wcs
+          buildFolder: build
+      - name: Compare output and fail if not correct
+        if: ${{ steps.run-command.outputs.packageFile != 'WcsElectron-some.exe' }}
+        run: exit 1
+      - name: Fail if secondary package exist
+        if: ${{ steps.run-command.outputs.packageFile2 }}
+        run: exit 1

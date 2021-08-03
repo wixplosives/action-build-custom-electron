@@ -25,6 +25,8 @@ inputs:
 outputs:
   packageFile: # id of the output
     description: 'Name of the compiled installation package'
+  packageFile2: # id of the output
+    description: 'Name of the secondary compiled installation package'
 runs:
   using: 'node12'
   main: 'dist/index.js'

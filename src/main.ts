@@ -5,14 +5,14 @@ import type childProcess from 'child_process'
 import * as path from 'path'
 
 
-function getResultExtension(): string {
+function getResultExtension(): string[] {
   switch (process.platform) {
     case 'darwin':
-      return '.dmg'
+      return ['.dmg']
     case 'win32':
-      return '.exe'
+      return ['.exe']
     default:
-      return '.deb'
+      return ['.deb', '.pacman']
   }
 }
 
@@ -39,17 +39,28 @@ async function run(): Promise<void> {
       ['-f', feature, '-c', featureConfig, '--publish', 'never'],
       spawnOptions
     )
-    const extension = getResultExtension()
+    const extensions = getResultExtension()
     const fullPathToBuildFolder = path.join(fullPathToPackage, buildFolder)
     core.info(
-      `Build folder - ${fullPathToBuildFolder}. Extension - ${extension}`
+      `Build folder - ${fullPathToBuildFolder}. Extension - ${extensions}`
     )
-    const resultFileName = await findFirstFileByExtension(
-      fullPathToBuildFolder,
-      extension
-    )
-    core.info(`Result file - ${resultFileName}`)
-    core.setOutput('packageFile', resultFileName)
+    if (extensions[0]){
+      const resultFileName = await findFirstFileByExtension(
+        fullPathToBuildFolder,
+        extensions[0]
+      )
+      core.info(`Result file - ${resultFileName}`)
+      core.setOutput('packageFile', resultFileName)
+    }
+    if (extensions[1]){
+      const resultFileName = await findFirstFileByExtension(
+        fullPathToBuildFolder,
+        extensions[1]
+      )
+      core.info(`Result file 2 - ${resultFileName}`)
+      core.setOutput('packageFile2', resultFileName)
+    }
+    
   } catch (error) {
     core.setFailed(error.message)
   }
