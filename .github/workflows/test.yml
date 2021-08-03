@@ -30,4 +30,6 @@ jobs:
       - name: Compare output and fail if not correct
         if: ${{ steps.run-command.outputs.packageFile != 'WcsElectron-some.deb' }}
         run: exit 1
-
+      - name: Compare output and fail if not correct
+        if: ${{ steps.run-command.outputs.packageFile2 != 'WcsElectron-some.deb' }}
+        run: exit 1

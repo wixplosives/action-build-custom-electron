@@ -76,11 +76,11 @@ const path = __importStar(__webpack_require__(622));
 function getResultExtension() {
     switch (process.platform) {
         case 'darwin':
-            return '.dmg';
+            return ['.dmg'];
         case 'win32':
-            return '.exe';
+            return ['.exe'];
         default:
-            return '.deb';
+            return ['.deb', '.pacman'];
     }
 }
 function run() {
@@ -103,12 +103,19 @@ function run() {
                 env: Object.assign(Object.assign({}, process.env), { WCS_FEATURE_NAME: `-${featureSuffix}` })
             };
             process_1.spawnSyncLogged(buildCmd, ['-f', feature, '-c', featureConfig, '--publish', 'never'], spawnOptions);
-            const extension = getResultExtension();
+            const extensions = getResultExtension();
             const fullPathToBuildFolder = path.join(fullPathToPackage, buildFolder);
-            core.info(`Build folder - ${fullPathToBuildFolder}. Extension - ${extension}`);
-            const resultFileName = yield utils_1.findFirstFileByExtension(fullPathToBuildFolder, extension);
-            core.info(`Result file - ${resultFileName}`);
-            core.setOutput('packageFile', resultFileName);
+            core.info(`Build folder - ${fullPathToBuildFolder}. Extension - ${extensions}`);
+            if (extensions[0]) {
+                const resultFileName = yield utils_1.findFirstFileByExtension(fullPathToBuildFolder, extensions[0]);
+                core.info(`Result file - ${resultFileName}`);
+                core.setOutput('packageFile', resultFileName);
+            }
+            if (extensions[1]) {
+                const resultFileName = yield utils_1.findFirstFileByExtension(fullPathToBuildFolder, extensions[1]);
+                core.info(`Result file 2 - ${resultFileName}`);
+                core.setOutput('packageFile2', resultFileName);
+            }
         }
         catch (error) {
             core.setFailed(error.message);
