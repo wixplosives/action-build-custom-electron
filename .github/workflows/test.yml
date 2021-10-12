@@ -20,6 +20,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: ./
+        id: run-publish-command
+        with:
+          packageFolder: ./__tests__/fixtures/package1          
+          buildCmd: npm run build:wcs
+          publish: always
+      - uses: ./
         id: run-command
         with:
           packageFolder: ./__tests__/fixtures/package1
