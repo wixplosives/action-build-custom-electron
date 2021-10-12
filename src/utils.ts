@@ -26,7 +26,7 @@ export function getPlatform(): string {
   }
 };
 
-export function setEnv(name: string, value: string) {
+export function setEnv(name: string, value: string): void {
   if (value) {
     process.env[name.toUpperCase()] = value.toString();
   }
