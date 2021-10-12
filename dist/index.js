@@ -73,16 +73,6 @@ const core = __importStar(__webpack_require__(186));
 const utils_1 = __webpack_require__(918);
 const process_1 = __webpack_require__(647);
 const path = __importStar(__webpack_require__(622));
-function getResultExtension() {
-    switch (process.platform) {
-        case 'darwin':
-            return ['.dmg'];
-        case 'win32':
-            return ['.exe'];
-        default:
-            return ['.deb', '.pacman'];
-    }
-}
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -90,20 +80,35 @@ function run() {
             const feature = core.getInput('feature');
             const featureConfig = core.getInput('featureConfig');
             const buildCmd = core.getInput('buildCmd');
+            const publish = core.getInput('publish');
             const buildFolder = core.getInput('buildFolder');
             core.debug(`Building ${feature} ${featureConfig} ...`); // debug is only output if you set the secret `ACTIONS_RUNNER_DEBUG` to true
             // yarn
             const fullPathToPackage = path.resolve(packageFolder);
             core.info(`Running in ${fullPathToPackage}`);
-            const featureSuffix = feature.replace('/', '-');
+            const platform = utils_1.getPlatform();
+            if (feature && feature.length > 0) {
+                const featureSuffix = feature.replace('/', '-');
+                utils_1.setEnv("WCS_FEATURE_NAME", `-${featureSuffix}`);
+            }
+            if (platform === "mac") {
+                utils_1.setEnv("CSC_LINK", core.getInput("macCerts"));
+                utils_1.setEnv("CSC_KEY_PASSWORD", core.getInput("macCertsPassword"));
+            }
+            else if (platform === "windows") {
+                utils_1.setEnv("CSC_LINK", core.getInput("windowsCerts"));
+                utils_1.setEnv("CSC_KEY_PASSWORD", core.getInput("windowsCertsPassword"));
+            }
             const spawnOptions = {
                 cwd: fullPathToPackage,
                 stdio: 'inherit',
                 shell: true,
-                env: Object.assign(Object.assign({}, process.env), { WCS_FEATURE_NAME: `-${featureSuffix}` })
+                env: Object.assign({}, process.env)
             };
-            process_1.spawnSyncLogged(buildCmd, ['-f', feature, '-c', featureConfig, '--publish', 'never'], spawnOptions);
-            const extensions = getResultExtension();
+            const buildParams = utils_1.buildCmdParams(feature, featureConfig, publish);
+            core.info(`Run build command:  "${buildCmd} ${buildParams.join(' ')}"`);
+            process_1.spawnSyncLogged(buildCmd, buildParams, spawnOptions);
+            const extensions = utils_1.getResultExtension();
             const fullPathToBuildFolder = path.join(fullPathToPackage, buildFolder);
             core.info(`Build folder - ${fullPathToBuildFolder}. Extension - ${extensions}`);
             if (extensions[0]) {
@@ -194,7 +199,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.findFirstFileByExtension = void 0;
+exports.buildCmdParams = exports.getResultExtension = exports.setEnv = exports.getPlatform = exports.findFirstFileByExtension = void 0;
 const fs = __importStar(__webpack_require__(747));
 const path = __importStar(__webpack_require__(622));
 function findFirstFileByExtension(dir, ext) {
@@ -210,6 +215,53 @@ function findFirstFileByExtension(dir, ext) {
     });
 }
 exports.findFirstFileByExtension = findFirstFileByExtension;
+function getPlatform() {
+    switch (process.platform) {
+        case "darwin":
+            return "mac";
+        case "win32":
+            return "windows";
+        default:
+            return "linux";
+    }
+}
+exports.getPlatform = getPlatform;
+;
+function setEnv(name, value) {
+    if (value) {
+        process.env[name.toUpperCase()] = value.toString();
+    }
+}
+exports.setEnv = setEnv;
+;
+function getResultExtension() {
+    switch (process.platform) {
+        case 'darwin':
+            return ['.dmg'];
+        case 'win32':
+            return ['.exe'];
+        default:
+            return ['.deb', '.pacman'];
+    }
+}
+exports.getResultExtension = getResultExtension;
+function buildCmdParams(feature, featureConfig, publish) {
+    const cmdParams = [];
+    if (feature && feature.length !== 0) {
+        cmdParams.push('-f');
+        cmdParams.push(feature);
+    }
+    if (featureConfig && featureConfig.length !== 0) {
+        cmdParams.push('-c');
+        cmdParams.push(featureConfig);
+    }
+    if (publish && publish.length !== 0) {
+        cmdParams.push('--publish');
+        cmdParams.push(publish);
+    }
+    return cmdParams;
+}
+exports.buildCmdParams = buildCmdParams;
 
 
 /***/ }),
