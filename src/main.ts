@@ -1,20 +1,8 @@
 import * as core from '@actions/core'
-import {findFirstFileByExtension} from './utils'
+import {findFirstFileByExtension, setEnv, getPlatform, getResultExtension, buildCmdParams} from './utils'
 import {spawnSyncLogged} from './process'
 import type childProcess from 'child_process'
 import * as path from 'path'
-
-
-function getResultExtension(): string[] {
-  switch (process.platform) {
-    case 'darwin':
-      return ['.dmg']
-    case 'win32':
-      return ['.exe']
-    default:
-      return ['.deb', '.pacman']
-  }
-}
 
 async function run(): Promise<void> {
   try {
@@ -22,21 +10,39 @@ async function run(): Promise<void> {
     const feature: string = core.getInput('feature')
     const featureConfig: string = core.getInput('featureConfig')
     const buildCmd: string = core.getInput('buildCmd')
+    const publish: string = core.getInput('publish')
     const buildFolder: string = core.getInput('buildFolder')
+    
     core.debug(`Building ${feature} ${featureConfig} ...`) // debug is only output if you set the secret `ACTIONS_RUNNER_DEBUG` to true
     // yarn
     const fullPathToPackage = path.resolve(packageFolder)
     core.info(`Running in ${fullPathToPackage}`)
-    const featureSuffix = feature.replace('/', '-')
+   
+    const platform = getPlatform()
+
+    if(feature && feature.length > 0){
+      const featureSuffix = feature.replace('/', '-')
+      setEnv("WCS_FEATURE_NAME", `-${featureSuffix}`);
+    }
+    if (platform === "mac") {
+      setEnv("CSC_LINK", core.getInput("macCerts"));
+      setEnv("CSC_KEY_PASSWORD", core.getInput("macCertsPassword"));
+    } else if (platform === "windows") {
+      setEnv("CSC_LINK", core.getInput("windowsCerts"));
+      setEnv("CSC_KEY_PASSWORD", core.getInput("windowsCertsPassword"));
+    }
+
     const spawnOptions: childProcess.SpawnSyncOptions = {
       cwd: fullPathToPackage,
       stdio: 'inherit',
       shell: true,
-      env: {...process.env, WCS_FEATURE_NAME: `-${featureSuffix}`}
+      env: {...process.env }
     }
+    const  buildParams = buildCmdParams( feature, featureConfig, publish)
+
     spawnSyncLogged(
       buildCmd,
-      ['-f', feature, '-c', featureConfig, '--publish', 'never'],
+      buildParams,
       spawnOptions
     )
     const extensions = getResultExtension()
