@@ -28,19 +28,19 @@ inputs:
     default: 'build'
   macCerts: 
     required: false
-    description: 'mac OS siging certificate'
+    description: 'mac OS signing certificate'
     default: ''
   macCertsPassword: 
     required: false
-    description: 'mac OS siging certificate password'
+    description: 'mac OS signing certificate password'
     default: ''
   windowsCerts: 
     required: false
-    description: 'win OS siging certificate'
+    description: 'win OS signing certificate'
     default: ''
   windowsCertsPassword: 
     required: false
-    description: 'win OS siging certificate password'
+    description: 'win OS signing certificate password'
     default: ''
 outputs:
   packageFile: # id of the output
