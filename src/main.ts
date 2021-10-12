@@ -40,6 +40,8 @@ async function run(): Promise<void> {
     }
     const buildParams = buildCmdParams(feature, featureConfig, publish)
 
+    core.info(`Run build command:  "${buildCmd} ${buildParams.join(' ')}"`  )
+
     spawnSyncLogged(
       buildCmd,
       buildParams,
