@@ -1,5 +1,5 @@
-import {findFirstFileByExtension, buildCmdParams} from '../src/utils'
-import {join} from 'path'
+import { findFirstFileByExtension, buildCmdParams } from '../src/utils'
+import { join } from 'path'
 
 const fixturesRoot = join(__dirname, 'fixtures')
 
@@ -11,7 +11,7 @@ test('Find first file with specific extension in folder', async () => {
 
 
 test('Build command for regular build', async () => {
-  const resultArray =  buildCmdParams( 'feature1', 'featureConfig', 'always' )
+  const resultArray = buildCmdParams('feature1', 'featureConfig', 'always')
   expect(resultArray).toContain('-f')
   expect(resultArray).toContain('feature1')
   expect(resultArray).toContain('-c')
@@ -21,13 +21,13 @@ test('Build command for regular build', async () => {
 })
 
 test('Build command no feature', async () => {
-  const resultArray =  buildCmdParams( '', '', 'always' )
+  const resultArray = buildCmdParams('', '', 'always')
   expect(resultArray).toHaveLength(2)
   expect(resultArray).toContain('--publish')
   expect(resultArray).toContain('always')
 })
 
 test('Build command no publish, no feature', async () => {
-  const resultArray =  buildCmdParams( '', '', '' )
+  const resultArray = buildCmdParams('', '', '')
   expect(resultArray).toHaveLength(0)
 })
