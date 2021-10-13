@@ -42,6 +42,10 @@ inputs:
     required: false
     description: 'win OS signing certificate password'
     default: ''
+  githubToken: 
+    required: false
+    description: 'in case we publish '
+    default: ''
 outputs:
   packageFile: # id of the output
     description: 'Name of the compiled installation package'

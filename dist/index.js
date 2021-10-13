@@ -73,6 +73,26 @@ const core = __importStar(__webpack_require__(186));
 const utils_1 = __webpack_require__(918);
 const process_1 = __webpack_require__(647);
 const path = __importStar(__webpack_require__(622));
+function setEnvVars() {
+    const feature = core.getInput('feature');
+    const githubToken = core.getInput("githubToken");
+    if (githubToken && githubToken.length != 0) {
+        utils_1.setEnv('GH_TOKEN', githubToken);
+    }
+    if (feature && feature.length > 0) {
+        const featureSuffix = feature.replace('/', '-');
+        utils_1.setEnv("WCS_FEATURE_NAME", `-${featureSuffix}`);
+    }
+    const platform = utils_1.getPlatform();
+    if (platform === "mac") {
+        utils_1.setEnv("CSC_LINK", core.getInput("macCerts"));
+        utils_1.setEnv("CSC_KEY_PASSWORD", core.getInput("macCertsPassword"));
+    }
+    else if (platform === "windows") {
+        utils_1.setEnv("CSC_LINK", core.getInput("windowsCerts"));
+        utils_1.setEnv("CSC_KEY_PASSWORD", core.getInput("windowsCertsPassword"));
+    }
+}
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -86,19 +106,7 @@ function run() {
             // yarn
             const fullPathToPackage = path.resolve(packageFolder);
             core.info(`Running in ${fullPathToPackage}`);
-            const platform = utils_1.getPlatform();
-            if (feature && feature.length > 0) {
-                const featureSuffix = feature.replace('/', '-');
-                utils_1.setEnv("WCS_FEATURE_NAME", `-${featureSuffix}`);
-            }
-            if (platform === "mac") {
-                utils_1.setEnv("CSC_LINK", core.getInput("macCerts"));
-                utils_1.setEnv("CSC_KEY_PASSWORD", core.getInput("macCertsPassword"));
-            }
-            else if (platform === "windows") {
-                utils_1.setEnv("CSC_LINK", core.getInput("windowsCerts"));
-                utils_1.setEnv("CSC_KEY_PASSWORD", core.getInput("windowsCertsPassword"));
-            }
+            setEnvVars();
             const spawnOptions = {
                 cwd: fullPathToPackage,
                 stdio: 'inherit',
