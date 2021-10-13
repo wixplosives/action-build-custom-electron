@@ -17,7 +17,7 @@ inputs:
   publish: 
     required: false
     description: 'publish parameter. One of( "onTag", "onTagOrDraft", "always", "never"). Default is "always"'
-    default: 'always'
+    default: ''
   buildCmd: 
     required: true
     description: 'build command to execute to compile install package'
