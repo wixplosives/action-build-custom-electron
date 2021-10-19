@@ -9,7 +9,7 @@ function setEnvVars() : void{
 
   const feature: string = core.getInput('feature')
   const githubToken: string = core.getInput("githubToken")
-  if (githubToken && githubToken.length != 0){
+  if (githubToken && githubToken.length !== 0){
     setEnv('GH_TOKEN', githubToken);
   }
   if (feature && feature.length > 0) {
