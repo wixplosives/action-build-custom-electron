@@ -4,7 +4,6 @@ import {spawnSyncLogged} from './process'
 import type childProcess from 'child_process'
 import * as path from 'path'
 
-
 function getResultExtension(): string[] {
   switch (process.platform) {
     case 'darwin':
@@ -44,7 +43,7 @@ async function run(): Promise<void> {
     core.info(
       `Build folder - ${fullPathToBuildFolder}. Extension - ${extensions}`
     )
-    if (extensions[0]){
+    if (extensions[0]) {
       const resultFileName = await findFirstFileByExtension(
         fullPathToBuildFolder,
         extensions[0]
@@ -52,7 +51,7 @@ async function run(): Promise<void> {
       core.info(`Result file - ${resultFileName}`)
       core.setOutput('packageFile', resultFileName)
     }
-    if (extensions[1]){
+    if (extensions[1]) {
       const resultFileName = await findFirstFileByExtension(
         fullPathToBuildFolder,
         extensions[1]
@@ -60,7 +59,6 @@ async function run(): Promise<void> {
       core.info(`Result file 2 - ${resultFileName}`)
       core.setOutput('packageFile2', resultFileName)
     }
-    
   } catch (error) {
     core.setFailed(error.message)
   }
