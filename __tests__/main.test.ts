@@ -1,5 +1,5 @@
-import {findFirstFileByExtension} from '../src/utils'
-import {join} from 'path'
+import { findFirstFileByExtension } from '../src/utils'
+import { join } from 'path'
 
 const fixturesRoot = join(__dirname, 'fixtures')
 

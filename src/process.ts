@@ -1,6 +1,6 @@
-import {spawnSync, SpawnSyncOptions, SpawnSyncReturns} from 'child_process'
-import {log, logError} from './log'
-import {isString} from './language-helpers'
+import { SpawnSyncOptions, SpawnSyncReturns, spawnSync } from 'child_process'
+import { log, logError } from './log'
+import { isString } from './language-helpers'
 
 export const spawnSyncSafe = ((...args: Parameters<typeof spawnSync>) => {
   const spawnResult = spawnSync(...args)
@@ -19,7 +19,7 @@ export function spawnSyncLogged(
   args: string[],
   options: SpawnSyncOptions,
   label = options.cwd || process.cwd()
-): SpawnSyncReturns<Buffer> {
+): SpawnSyncReturns<string | Buffer> {
   log(`${label}: ${command} ${args.join(' ')}`)
   return spawnSyncSafe(command, args, options)
 }

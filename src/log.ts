@@ -1,4 +1,4 @@
-import {green, yellow, red} from 'chalk'
+import { green, red, yellow } from 'colorette'
 
 /* eslint-disable no-console */
 export const log = (message: unknown): void =>

@@ -28,7 +28,7 @@ outputs:
   packageFile2: # id of the output
     description: 'Name of the secondary compiled installation package'
 runs:
-  using: 'node12'
+  using: 'node16'
   main: 'dist/index.js'
 
  
