@@ -1,8 +1,8 @@
 import * as core from '@actions/core'
+import * as path from 'path'
+import type childProcess from 'child_process'
 import {findFirstFileByExtension} from './utils'
 import {spawnSyncLogged} from './process'
-import type childProcess from 'child_process'
-import * as path from 'path'
 
 function getResultExtension(): string[] {
   switch (process.platform) {
