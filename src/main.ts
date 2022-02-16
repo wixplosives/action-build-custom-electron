@@ -5,6 +5,7 @@ import type childProcess from 'child_process'
 import * as path from 'path'
 
 
+
 function setEnvVars() : void{
 
   const feature: string = core.getInput('feature')
@@ -78,7 +79,6 @@ async function run(): Promise<void> {
       core.info(`Result file 2 - ${resultFileName}`)
       core.setOutput('packageFile2', resultFileName)
     }
-
   } catch (error) {
     core.setFailed(error.message)
   }
