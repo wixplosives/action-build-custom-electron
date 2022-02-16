@@ -1,5 +1,5 @@
-import { findFirstFileByExtension, buildCmdParams } from '../src/utils'
-import { join } from 'path'
+import {findFirstFileByExtension, buildCmdParams} from '../src/utils'
+import {join} from 'path'
 
 const fixturesRoot = join(__dirname, 'fixtures')
 
@@ -8,7 +8,6 @@ test('Find first file with specific extension in folder', async () => {
   const resultFileName = await findFirstFileByExtension(buildFolder, '.dmg')
   expect(resultFileName).toBe('WcsElectron-some.dmg')
 })
-
 
 test('Build command for regular build', async () => {
   const resultArray = buildCmdParams('feature1', 'featureConfig', 'always')

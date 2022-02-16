@@ -17,20 +17,20 @@ export async function findFirstFileByExtension(
 
 export function getPlatform(): string {
   switch (process.platform) {
-    case "darwin":
-      return "mac";
-    case "win32":
-      return "windows";
+    case 'darwin':
+      return 'mac'
+    case 'win32':
+      return 'windows'
     default:
-      return "linux";
+      return 'linux'
   }
-};
+}
 
 export function setEnv(name: string, value: string): void {
   if (value) {
-    process.env[name.toUpperCase()] = value.toString();
+    process.env[name.toUpperCase()] = value
   }
-};
+}
 
 export function getResultExtension(): string[] {
   switch (process.platform) {
@@ -43,17 +43,21 @@ export function getResultExtension(): string[] {
   }
 }
 
-export function buildCmdParams(feature: string, featureConfig: string, publish: string): string[] {
+export function buildCmdParams(
+  feature: string,
+  featureConfig: string,
+  publish: string
+): string[] {
   const cmdParams = []
   if (feature && feature.length !== 0) {
     cmdParams.push('-f')
     cmdParams.push(feature)
   }
-  if (featureConfig && featureConfig.length !== 0) {
+  if (featureConfig) {
     cmdParams.push('-c')
     cmdParams.push(featureConfig)
   }
-  if (publish && publish.length !== 0) {
+  if (publish) {
     cmdParams.push('--publish')
     cmdParams.push(publish)
   }

@@ -69,27 +69,27 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(186));
+const path = __importStar(__nccwpck_require__(17));
 const utils_1 = __nccwpck_require__(918);
 const process_1 = __nccwpck_require__(647);
-const path = __importStar(__nccwpck_require__(17));
 function setEnvVars() {
     const feature = core.getInput('feature');
-    const githubToken = core.getInput("githubToken");
-    if (githubToken && githubToken.length !== 0) {
+    const githubToken = core.getInput('githubToken');
+    if (githubToken) {
         (0, utils_1.setEnv)('GH_TOKEN', githubToken);
     }
-    if (feature && feature.length > 0) {
-        const featureSuffix = feature.replace('/', '-');
-        (0, utils_1.setEnv)("WCS_FEATURE_NAME", `-${featureSuffix}`);
+    if (feature) {
+        const normilizedFeatureName = feature.replace('/', '-');
+        (0, utils_1.setEnv)('WCS_FEATURE_NAME', `-${normilizedFeatureName}`);
     }
     const platform = (0, utils_1.getPlatform)();
-    if (platform === "mac") {
-        (0, utils_1.setEnv)("CSC_LINK", core.getInput("macCerts"));
-        (0, utils_1.setEnv)("CSC_KEY_PASSWORD", core.getInput("macCertsPassword"));
+    if (platform === 'mac') {
+        (0, utils_1.setEnv)('CSC_LINK', core.getInput('macCerts'));
+        (0, utils_1.setEnv)('CSC_KEY_PASSWORD', core.getInput('macCertsPassword'));
     }
-    else if (platform === "windows") {
-        (0, utils_1.setEnv)("CSC_LINK", core.getInput("windowsCerts"));
-        (0, utils_1.setEnv)("CSC_KEY_PASSWORD", core.getInput("windowsCertsPassword"));
+    else if (platform === 'windows') {
+        (0, utils_1.setEnv)('CSC_LINK', core.getInput('windowsCerts'));
+        (0, utils_1.setEnv)('CSC_KEY_PASSWORD', core.getInput('windowsCertsPassword'));
     }
 }
 function run() {
@@ -224,23 +224,21 @@ function findFirstFileByExtension(dir, ext) {
 exports.findFirstFileByExtension = findFirstFileByExtension;
 function getPlatform() {
     switch (process.platform) {
-        case "darwin":
-            return "mac";
-        case "win32":
-            return "windows";
+        case 'darwin':
+            return 'mac';
+        case 'win32':
+            return 'windows';
         default:
-            return "linux";
+            return 'linux';
     }
 }
 exports.getPlatform = getPlatform;
-;
 function setEnv(name, value) {
     if (value) {
-        process.env[name.toUpperCase()] = value.toString();
+        process.env[name.toUpperCase()] = value;
     }
 }
 exports.setEnv = setEnv;
-;
 function getResultExtension() {
     switch (process.platform) {
         case 'darwin':
@@ -258,11 +256,11 @@ function buildCmdParams(feature, featureConfig, publish) {
         cmdParams.push('-f');
         cmdParams.push(feature);
     }
-    if (featureConfig && featureConfig.length !== 0) {
+    if (featureConfig) {
         cmdParams.push('-c');
         cmdParams.push(featureConfig);
     }
-    if (publish && publish.length !== 0) {
+    if (publish) {
         cmdParams.push('--publish');
         cmdParams.push(publish);
     }
