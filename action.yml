@@ -7,13 +7,17 @@ inputs:
     description: 'Path to folder with package to build'
     default: './'
   feature: 
-    required: true
+    required: false
     description: 'name of the feature'
-    default: 'no default'
+    default: ''
   featureConfig: 
-    required: true
+    required: false
     description: 'config file for feature'
-    default: 'no default'
+    default: ''
+  publish: 
+    required: false
+    description: 'publish parameter. One of( "onTag", "onTagOrDraft", "always", "never"). Default is "always"'
+    default: ''
   buildCmd: 
     required: true
     description: 'build command to execute to compile install package'
@@ -22,6 +26,26 @@ inputs:
     required: false
     description: 'path relative to packageFolder where result files will be'
     default: 'build'
+  macCerts: 
+    required: false
+    description: 'mac OS signing certificate'
+    default: ''
+  macCertsPassword: 
+    required: false
+    description: 'mac OS signing certificate password'
+    default: ''
+  windowsCerts: 
+    required: false
+    description: 'win OS signing certificate'
+    default: ''
+  windowsCertsPassword: 
+    required: false
+    description: 'win OS signing certificate password'
+    default: ''
+  githubToken: 
+    required: false
+    description: 'in case we publish '
+    default: ''
 outputs:
   packageFile: # id of the output
     description: 'Name of the compiled installation package'

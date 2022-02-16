@@ -1,6 +1,6 @@
-import { SpawnSyncOptions, SpawnSyncReturns, spawnSync } from 'child_process'
-import { log, logError } from './log'
-import { isString } from './language-helpers'
+import {SpawnSyncOptions, SpawnSyncReturns, spawnSync} from 'child_process'
+import {log, logError} from './log'
+import {isString} from './language-helpers'
 
 export const spawnSyncSafe = ((...args: Parameters<typeof spawnSync>) => {
   const spawnResult = spawnSync(...args)

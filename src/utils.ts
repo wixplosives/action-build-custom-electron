@@ -14,3 +14,52 @@ export async function findFirstFileByExtension(
   }
   return ''
 }
+
+export function getPlatform(): string {
+  switch (process.platform) {
+    case 'darwin':
+      return 'mac'
+    case 'win32':
+      return 'windows'
+    default:
+      return 'linux'
+  }
+}
+
+export function setEnv(name: string, value: string): void {
+  if (value) {
+    process.env[name.toUpperCase()] = value
+  }
+}
+
+export function getResultExtension(): string[] {
+  switch (process.platform) {
+    case 'darwin':
+      return ['.dmg']
+    case 'win32':
+      return ['.exe']
+    default:
+      return ['.deb', '.pacman']
+  }
+}
+
+export function buildCmdParams(
+  feature: string,
+  featureConfig: string,
+  publish: string
+): string[] {
+  const cmdParams = []
+  if (feature && feature.length !== 0) {
+    cmdParams.push('-f')
+    cmdParams.push(feature)
+  }
+  if (featureConfig) {
+    cmdParams.push('-c')
+    cmdParams.push(featureConfig)
+  }
+  if (publish) {
+    cmdParams.push('--publish')
+    cmdParams.push(publish)
+  }
+  return cmdParams
+}
