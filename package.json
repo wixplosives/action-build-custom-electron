@@ -31,7 +31,7 @@
     "colorette": "^2.0.16",
     "glob-parent": "^6.0.2",
     "hosted-git-info": "^5.0.0",
-    "ws": "^8.6.0",
+    "ws": "^8.7.0",
     "y18n": "^5.0.8"
   },
   "devDependencies": {
