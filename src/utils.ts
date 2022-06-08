@@ -35,7 +35,7 @@ export function setEnv(name: string, value: string): void {
 export function getResultExtension(): string[] {
   switch (process.platform) {
     case 'darwin':
-      return ['.dmg']
+      return ['.x64.dmg', '.arm64.dmg']
     case 'win32':
       return ['.exe']
     default:
