@@ -3,10 +3,19 @@ import {join} from 'path'
 
 const fixturesRoot = join(__dirname, 'fixtures')
 
-test('Find first file with specific extension in folder', async () => {
+test('Find first file with specific extension in folder .arm64.dmg', async () => {
   const buildFolder = join(fixturesRoot, 'package1/build')
-  const resultFileName = await findFirstFileByExtension(buildFolder, '.dmg')
-  expect(resultFileName).toBe('WcsElectron-some.dmg')
+  const resultFileName = await findFirstFileByExtension(
+    buildFolder,
+    '.arm64.dmg'
+  )
+  expect(resultFileName).toBe('WcsElectron-some.arm64.dmg')
+})
+
+test('Find first file with specific extension in folder .x64.dmg', async () => {
+  const buildFolder = join(fixturesRoot, 'package1/build')
+  const resultFileName = await findFirstFileByExtension(buildFolder, '.x64.dmg')
+  expect(resultFileName).toBe('WcsElectron-some.x64.dmg')
 })
 
 test('Build command for regular build', async () => {

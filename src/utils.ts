@@ -7,11 +7,12 @@ export async function findFirstFileByExtension(
 ): Promise<string> {
   const files = fs.readdirSync(dir)
   const targetFiles = files.filter(file => {
-    return path.extname(file).toLowerCase() === ext
+    return path.basename(file).toLowerCase().endsWith(ext)
   })
   if (targetFiles.length > 0) {
     return targetFiles[0]
   }
+
   return ''
 }
 

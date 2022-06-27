@@ -221,7 +221,7 @@ function findFirstFileByExtension(dir, ext) {
     return __awaiter(this, void 0, void 0, function* () {
         const files = fs.readdirSync(dir);
         const targetFiles = files.filter(file => {
-            return path.extname(file).toLowerCase() === ext;
+            return path.basename(file).toLowerCase().endsWith(ext);
         });
         if (targetFiles.length > 0) {
             return targetFiles[0];
