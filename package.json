@@ -35,7 +35,7 @@
     "y18n": "^5.0.8"
   },
   "devDependencies": {
-    "@types/jest": "^29.2.0",
+    "@types/jest": "^29.2.1",
     "@types/node": "^18.11.5",
     "@typescript-eslint/parser": "^5.41.0",
     "@vercel/ncc": "^0.34.0",
