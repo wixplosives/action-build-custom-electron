@@ -48,6 +48,6 @@
     "lodash": "^4.17.21",
     "prettier": "^2.8.7",
     "ts-jest": "^29.0.5",
-    "typescript": "^5.0.2"
+    "typescript": "^5.0.3"
   }
 }
